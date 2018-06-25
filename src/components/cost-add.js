@@ -14,8 +14,8 @@ class CostAdd extends React.Component {
     console.log("create cost", event);
     event.preventDefault();
     const cost = {
-      price: parseFloat(this.priceRef.value.value),
-      name: this.nameRef.value.value,
+      price: parseFloat(this.priceRef.current.value),
+      name: this.nameRef.current.value,
       id: uuid()
     };
     if (!isNaN(cost.price)) {

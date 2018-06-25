@@ -9,7 +9,7 @@ class AddParticipates extends React.Component {
   };
   addName = event => {
     event.preventDefault();
-    const item = { name: this.participatorName.value.value };
+    const item = { name: this.participatorName.current.value };
     this.props.AddParticipator(item);
     // refresh the form
     event.currentTarget.reset();

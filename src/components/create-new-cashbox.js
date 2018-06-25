@@ -11,7 +11,7 @@ class CreateNewCashbox extends React.Component {
   createCashbox = event => {
     event.preventDefault();
     const cashbox = {
-      name: this.cashboxName.value.value,
+      name: this.cashboxName.current.value,
       id: uuid()
     };
     if (!cashbox.name) {

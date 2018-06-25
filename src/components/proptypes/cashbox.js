@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 
 export const participatorPropType = PropTypes.shape({
-  name: PropTypes.string
+  name: PropTypes.string,
+  sent: PropTypes.bool,
+  received: PropTypes.bool
 });
 export const costPropType = PropTypes.shape({
   name: PropTypes.string,

@@ -82,7 +82,7 @@ class App extends React.Component {
   getFingerprint() {
     return new Promise((resolve, reject) => {
       try {
-        new fing().get(function(result, components) {
+        new fing().get(function (result, components) {
           resolve(result);
         });
       } catch (e) {
@@ -167,6 +167,19 @@ class App extends React.Component {
       id: new Date().getTime(),
       name: "name " + new Date().getTime()
     });
+
+    let mb = (localStorage.getItem("cashboxesParticipator"));
+    if (!mb) {
+      mb = {};
+    }
+    else {
+      mb = JSON.parse(mb);
+    }
+
+    mb[cashbox.id + ""] = cashbox;
+
+    localStorage.setItem("cashboxesParticipator", JSON.stringify(mb));
+
     this.setState({ cashbox });
   };
   canModifyParticipator = index => {
@@ -180,7 +193,7 @@ class App extends React.Component {
     if (
       this.canEditCashbox() ||
       this.state.identifier ===
-        this.state.cashbox.participates[index].identifier
+      this.state.cashbox.participates[index].identifier
     ) {
       return true;
     }
@@ -191,7 +204,7 @@ class App extends React.Component {
     return (
       this.canEditCashbox() ||
       this.state.cashbox.participates[index].identifier ===
-        this.state.identifier
+      this.state.identifier
     );
   };
   deleteParticipator = index => {

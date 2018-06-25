@@ -9,7 +9,8 @@ class MainForm extends React.Component {
   state = {
     identifier: "",
     fingerprint: "",
-    cashboxes: {}
+    cashboxes: {},
+    participates: {}
   };
   static propTypes = {
     history: PropTypes.object
@@ -18,6 +19,12 @@ class MainForm extends React.Component {
     const cashboxesLocalRef = localStorage.getItem("cashboxes");
     if (cashboxesLocalRef) {
       this.setState({ cashboxes: JSON.parse(cashboxesLocalRef) });
+    }
+
+    const cashboxesParticipatorRef = localStorage.getItem("cashboxesParticipator");
+    if (cashboxesParticipatorRef) {
+      console.log('ok')
+      this.setState({ participates: JSON.parse(cashboxesParticipatorRef) });
     }
   }
 
@@ -46,6 +53,20 @@ class MainForm extends React.Component {
             <h3>Twoje zbiórki</h3>
             <ul className="list-group">
               {Object.keys(this.state.cashboxes).map(key => (
+                <li key={key} className="list-group-item">
+                  <a href={`/cashbox/${key}`}>
+                    {this.state.cashboxes[key].name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {this.state.participates && this.state.participates && (
+          <div className="mt-5">
+            <h3>Uczestniczę</h3>
+            <ul className="list-group">
+              {Object.keys(this.state.participates).map(key => (
                 <li key={key} className="list-group-item">
                   <a href={`/cashbox/${key}`}>
                     {this.state.cashboxes[key].name}

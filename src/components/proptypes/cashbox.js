@@ -11,6 +11,7 @@ export const cashboxPropType = PropTypes.shape({
   id: PropTypes.string,
   name: PropTypes.string,
   desc: PropTypes.string,
+  expire: PropTypes.number,
   participates: PropTypes.objectOf(participatorPropType),
   costs: PropTypes.objectOf(costPropType)
 });

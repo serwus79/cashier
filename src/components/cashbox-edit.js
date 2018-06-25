@@ -10,9 +10,17 @@ class CashboxEdit extends React.Component {
   };
 
   handleChange = event => {
+    const target = event.target;
+    let value = target.type === "checkbox" ? target.checked : target.value;
+    if (target.type === "number") {
+      value = parseFloat(target.value);
+      if (isNaN(value)) {
+        value = 0;
+      }
+    }
     const cashbox = {
       ...this.props.cashbox,
-      [event.currentTarget.name]: event.currentTarget.value
+      [target.name]: value
     };
     this.props.updateCashbox(cashbox);
   };
@@ -28,6 +36,7 @@ class CashboxEdit extends React.Component {
               className="form-control form-control-lg mt-1"
               value={this.props.cashbox.name}
               onChange={this.handleChange}
+              required="true"
             />
           </div>
           <div className="form-group">
@@ -39,6 +48,7 @@ class CashboxEdit extends React.Component {
               rows="5"
             />
           </div>
+          <div className="form-group" />
         </form>
       </div>
     );

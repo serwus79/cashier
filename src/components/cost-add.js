@@ -11,6 +11,7 @@ class CostAdd extends React.Component {
   };
 
   createCost = event => {
+    console.log("create cost", event);
     event.preventDefault();
     const cost = {
       price: parseFloat(this.priceRef.value.value),
@@ -32,7 +33,7 @@ class CostAdd extends React.Component {
             name="name"
             ref={this.nameRef}
             placeholder="Nazwa kosztu"
-            require="true"
+            required="true"
           />
           <input
             type="number"
@@ -41,12 +42,12 @@ class CostAdd extends React.Component {
             name="price"
             ref={this.priceRef}
             placeholder="Cena"
-            require="true"
+            required="true"
           />
           <div className="input-group-append w-25">
             <button
               className="btn btn-outline-secondary btn-block"
-              type="button"
+              type="submit"
             >
               Dodaj
             </button>

@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import uuid from "uuid";
-import fing from "fingerprintjs2";
 
 import base from "../base";
 
@@ -21,72 +19,6 @@ class MainForm extends React.Component {
     if (cashboxesLocalRef) {
       this.setState({ cashboxes: JSON.parse(cashboxesLocalRef) });
     }
-    this.getFingerprint().then(fingerprint => {
-      this.setState({ fingerprint });
-      this.getIdentifierByFingerprint(fingerprint).then(async result => {
-        console.log("fingerprint data: ", result);
-        let identifier = "";
-        if (result && result.identifier) {
-          identifier = result.identifier;
-          await this.setIdentifier(result.identifier);
-        } else {
-          identifier = uuid();
-          await this.setIdentifier(identifier);
-        }
-        await this.setFingerprint(fingerprint, {
-          identifier: identifier,
-          ts: new Date().getTime()
-        });
-        this.ref = base.syncState(identifier + `/cashboxes`, {
-          context: this,
-          state: "cashboxes"
-        });
-      });
-    });
-  }
-  getFingerprint() {
-    return new Promise((resolve, reject) => {
-      try {
-        new fing().get(function(result, components) {
-          resolve(result);
-        });
-      } catch (e) {
-        resolve(null);
-      }
-    });
-  }
-  getIdentifierByFingerprint(fingerprint) {
-    return new Promise((resolve, reject) => {
-      console.log("ref", base);
-
-      base
-        .fetch(`fingerprints/${fingerprint}`, {
-          context: this
-        })
-        .then(result => {
-          resolve(result);
-        });
-    });
-  }
-  setIdentifier(identifier) {
-    return new Promise((resolve, reject) => {
-      localStorage.setItem("identifier", identifier);
-      this.setState({ identifier }, () => {
-        resolve();
-      });
-    });
-  }
-  setFingerprint(fingerprint, data) {
-    return new Promise((resolve, reject) => {
-      base.post(`fingerprints/${fingerprint}`, { data: data }).then(
-        result => {
-          resolve();
-        },
-        error => {
-          reject();
-        }
-      );
-    });
   }
 
   componentDidUpdate() {
@@ -102,20 +34,26 @@ class MainForm extends React.Component {
     const cashboxes = { ...this.state.cashboxes };
     cashboxes[cashbox.id] = cashbox;
     this.setState({ cashboxes: cashboxes });
+    window.location.href = `/cashbox/${cashbox.id}`;
   };
   render() {
     console.log(this.state.cashboxes);
     return (
-      <div>
+      <div className="mx-auto w-50">
         <CreateNewCashbox addCashbox={this.addCashbox} />
         {this.state.cashboxes && (
-          <ol>
-            {Object.keys(this.state.cashboxes).map(key => (
-              <li key={key}>
-                <a href={`/cashbox/${key}`}>{this.state.cashboxes[key].name}</a>
-              </li>
-            ))}
-          </ol>
+          <div>
+            <h3>Twoje zbiórki</h3>
+            <ul className="list-group">
+              {Object.keys(this.state.cashboxes).map(key => (
+                <li key={key} className="list-group-item">
+                  <a href={`/cashbox/${key}`}>
+                    {this.state.cashboxes[key].name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     );

@@ -1,10 +1,11 @@
 import Rebase from "re-base";
 import firebase from "firebase";
+import config from "./config";
 
 const firebaseApp = firebase.initializeApp({
-  apiKey: "------------",
-  authDomain: "----------------",
-  databaseURL: "---------------"
+  apiKey: config.firebase.apiKey,
+  authDomain: config.firebase.authDomain,
+  databaseURL: config.firebase.databaseURL
 });
 
 const base = Rebase.createClass(firebaseApp.database());

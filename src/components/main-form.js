@@ -21,9 +21,11 @@ class MainForm extends React.Component {
       this.setState({ cashboxes: JSON.parse(cashboxesLocalRef) });
     }
 
-    const cashboxesParticipatorRef = localStorage.getItem("cashboxesParticipator");
+    const cashboxesParticipatorRef = localStorage.getItem(
+      "cashboxesParticipator"
+    );
     if (cashboxesParticipatorRef) {
-      console.log('ok')
+      console.log("ok");
       this.setState({ participates: JSON.parse(cashboxesParticipatorRef) });
     }
   }
@@ -62,14 +64,14 @@ class MainForm extends React.Component {
             </ul>
           </div>
         )}
-        {this.state.participates && this.state.participates && (
+        {this.state.participates && (
           <div className="mt-5">
             <h3>Uczestniczę</h3>
             <ul className="list-group">
               {Object.keys(this.state.participates).map(key => (
                 <li key={key} className="list-group-item">
                   <a href={`/cashbox/${key}`}>
-                    {this.state.cashboxes[key].name}
+                    {this.state.participates[key].name}
                   </a>
                 </li>
               ))}

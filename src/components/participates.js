@@ -13,7 +13,7 @@ class Participates extends React.Component {
     addParticipator: PropTypes.func.isRequired,
     deleteParticipator: PropTypes.func.isRequired,
     cashSent: PropTypes.func,
-    cashReceived: PropTypes.func,
+    cashReceived: PropTypes.func
   };
 
   render() {
@@ -47,41 +47,55 @@ class Participates extends React.Component {
                       )}
                     {(this.props.canEdit ||
                       this.props.cashbox.participates[key].identifier ===
-                      this.props.identifier) && (
-                        <span>
-
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => this.props.deleteParticipator(key)}
-                          >
-                            Usuń
-                        </button>
-
-                          {!this.props.cashbox.participates[key].sent && (
+                        this.props.identifier) && (
+                      <span>
+                        {!this.props.cashbox.participates[key].sent &&
+                          !this.props.cashbox.participates[key].received && (
                             <button
-                              className="btn btn-success" onClick={() => this.props.cashSent(key)}>
-                              Zapłacono
-                          </button>
+                              type="button"
+                              className="btn btn-danger"
+                              onClick={() => this.props.deleteParticipator(key)}
+                            >
+                              Usuń
+                            </button>
                           )}
-                          {this.props.canEdit && this.props.cashbox.participates[key].sent && !this.props.cashbox.participates[key].received && (
+                        {!this.props.canEdit &&
+                          this.props.cashbox.participates[key].identifier ===
+                            this.props.identifier &&
+                          !this.props.cashbox.participates[key].sent &&
+                          !this.props.cashbox.participates[key].received && (
                             <button
-                              className="btn btn-success" onClick={() => this.props.cashReceived(key)}>
+                              className="btn btn-success"
+                              onClick={() => this.props.cashSent(key)}
+                            >
+                              Poszło
+                            </button>
+                          )}
+                        {this.props.canEdit &&
+                          !this.props.cashbox.participates[key].received && (
+                            <button
+                              className="btn btn-success"
+                              onClick={() => this.props.cashReceived(key)}
+                            >
                               Otrzymane
-                          </button>
+                            </button>
                           )}
-                        </span>
-                      )}
+                      </span>
+                    )}
                   </span>
                   {this.props.cashbox.participates[key].name}
                   {(this.props.canEdit ||
                     this.props.cashbox.participates[key].identifier ===
-                    this.props.identifier)
-                    &&
-                    (this.props.cashbox.participates[key].sent || this.props.cashbox.participates[key].received)
-                    && (
+                      this.props.identifier) &&
+                    (this.props.cashbox.participates[key].sent ||
+                      this.props.cashbox.participates[key].received) && (
                       <span>
-                        <br /><span className="text-muted">{(this.props.cashbox.participates[key].received ? 'otrzymano' : 'wysłano')}</span>
+                        <br />
+                        <span className="text-muted">
+                          {this.props.cashbox.participates[key].received
+                            ? "otrzymano"
+                            : "wysłano"}
+                        </span>
                       </span>
                     )}
                 </li>

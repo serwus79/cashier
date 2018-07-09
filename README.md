@@ -8,6 +8,10 @@
 
 Należy stworzyć plik `/src/config.js` jako wzoru proszę użyć `/src/config.template.js`.
 
+## konfiguracja iis
+
+W projekcie jest plik `web.config` należy tylko zmienić `domain-without-www` na właściwą domenę.
+
 ## TODO
 
 - włączenie/wyłączenie możliwości dopisania się

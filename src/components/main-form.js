@@ -49,7 +49,18 @@ class MainForm extends React.Component {
     console.log(this.state.cashboxes);
     return (
       <div className="mx-auto w-50">
-        <CreateNewCashbox addCashbox={this.addCashbox} />
+        <div class="alert alert-warning mt-2">
+          <p>
+            <b>Uwaga!!!</b> Już niedługo serwis testowy zostanie wyłączony.
+          </p>
+          <p>
+            Nowy serwis jest uruchomiony pod adresem:{" "}
+            <a href="https://www.zrzuta.infocity.pl">
+              https://www.zrzuta.infocity.pl
+            </a>
+          </p>
+        </div>
+
         {this.state.cashboxes && (
           <div>
             <h3>Twoje zbiórki</h3>

@@ -35,7 +35,9 @@ class Costs extends React.Component {
       return (
         <div className="cashbox-details">
           <div>
-            <p>Suma: {formatPrice(costsSum)}</p>
+            <p>
+              Suma: {formatPrice(costsSum)} / {participatesCount} osób
+            </p>
             <p>Na osobę: {formatPrice(costsSum / participatesCount)}</p>
             <ul className="list-group list-group-flush">
               {this.props.cashbox.costs &&

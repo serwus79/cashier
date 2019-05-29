@@ -21,49 +21,61 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const { params } = this.props.match;
+    console.log("componentDidMount");
     // Odczytanie identifier
-    this.getFingerprint().then(fingerprint => {
-      this.setState({ fingerprint });
-      this.getIdentifierByFingerprint(fingerprint).then(async result => {
-        console.log("fingerprint data: ", result);
-        let identifier = "";
-        let uid = "";
-        if (result && result.identifier) {
-          identifier = result.identifier;
-          uid = await this.setIdentifier(result.identifier);
-        } else {
-          identifier = uuid();
-          uid = await this.setIdentifier(identifier);
-        }
-        await this.setFingerprint(fingerprint, {
-          identifier: identifier,
-          ts: new Date().getTime()
-        });
-        //Aktualizacja zbiórki
-        this.ref = base.syncState(`cashboxes/${params.cashboxId}`, {
-          context: this,
-          state: "cashbox",
-          then: () => {
-            if (!this.state.cashbox || !this.state.cashbox.id) {
-              const params = this.props.match.params;
-              if (this.state.cashboxes[params.cashboxId]) {
-                let cashbox = { ...this.state.cashboxes[params.cashboxId] };
-                cashbox.uid = uid;
-                cashbox.desc = "";
-                this.setState({ cashbox: cashbox });
-              }
-            }
-            this.setState({ loading: false });
-          }
-        });
-      });
+    let identifier = localStorage.getItem("identifier");
+    if (!identifier) {
+      identifier = uuid();
+    }
+    console.log("identifier:", identifier);
+
+    this.setIdentifier(identifier).then(val => {
+      console.log("uid: ", val);
     });
+    this.setState({ loading: false });
+
+    // this.getFingerprint().then(fingerprint => {
+    //   this.setState({ fingerprint });
+    //   this.getIdentifierByFingerprint(fingerprint).then(async result => {
+    //     console.log("fingerprint data: ", result);
+    //     let identifier = "";
+    //     let uid = "";
+    //     if (result && result.identifier) {
+    //       identifier = result.identifier;
+    //       uid = await this.setIdentifier(result.identifier);
+    //     } else {
+    //       identifier = uuid();
+    //       uid = await this.setIdentifier(identifier);
+    //     }
+    //     await this.setFingerprint(fingerprint, {
+    //       identifier: identifier,
+    //       ts: new Date().getTime()
+    //     });
+    //     //Aktualizacja zbiórki
+    //     this.ref = base.syncState(`cashboxes/${params.cashboxId}`, {
+    //       context: this,
+    //       state: "cashbox",
+    //       then: () => {
+    //         if (!this.state.cashbox || !this.state.cashbox.id) {
+    //           const params = this.props.match.params;
+    //           if (this.state.cashboxes[params.cashboxId]) {
+    //             let cashbox = { ...this.state.cashboxes[params.cashboxId] };
+    //             cashbox.uid = uid;
+    //             cashbox.desc = "";
+    //             this.setState({ cashbox: cashbox });
+    //           }
+    //         }
+    //         this.setState({ loading: false });
+    //       }
+    //     });
+    //   });
+    // });
 
     const myCashboxesRef = localStorage.getItem("cashboxes");
     let myCashboxes = {};
     if (myCashboxesRef) {
       myCashboxes = JSON.parse(myCashboxesRef);
+      console.log("cashboxes", myCashboxes);
       this.setState({ cashboxes: myCashboxes });
     }
 
@@ -82,7 +94,7 @@ class App extends React.Component {
   getFingerprint() {
     return new Promise((resolve, reject) => {
       try {
-        new fing().get(function (result, components) {
+        new fing().get(function(result, components) {
           resolve(result);
         });
       } catch (e) {
@@ -168,11 +180,10 @@ class App extends React.Component {
       name: "name " + new Date().getTime()
     });
 
-    let mb = (localStorage.getItem("cashboxesParticipator"));
+    let mb = localStorage.getItem("cashboxesParticipator");
     if (!mb) {
       mb = {};
-    }
-    else {
+    } else {
       mb = JSON.parse(mb);
     }
 
@@ -193,7 +204,7 @@ class App extends React.Component {
     if (
       this.canEditCashbox() ||
       this.state.identifier ===
-      this.state.cashbox.participates[index].identifier
+        this.state.cashbox.participates[index].identifier
     ) {
       return true;
     }
@@ -204,7 +215,7 @@ class App extends React.Component {
     return (
       this.canEditCashbox() ||
       this.state.cashbox.participates[index].identifier ===
-      this.state.identifier
+        this.state.identifier
     );
   };
   deleteParticipator = index => {

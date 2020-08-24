@@ -11,7 +11,10 @@ const SignInAnonynmous = () => {
     event.preventDefault();
     return auth
       .signInAnonymously()
-      .then((user) => generateUserDocument(user, { displayName }))
+      .then((user) => {
+        generateUserDocument(user, { displayName });
+        this.setState({ displayName });
+      })
       .catch((error) => {
         setError("Error signing in anonymously!");
         console.error("Error signing in anonymously", error);

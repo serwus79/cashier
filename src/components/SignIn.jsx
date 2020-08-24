@@ -10,13 +10,10 @@ const SignIn = () => {
 
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => console.log("logged by email", email))
-      .catch((error) => {
-        setError("Error signing in with password and email!");
-        console.error("Error signing in with password and email", error);
-      });
+    auth.signInWithEmailAndPassword(email, password).catch((error) => {
+      setError("Error signing in with password and email!");
+      console.error("Error signing in with password and email", error);
+    });
   };
 
   const onChangeHandler = (event) => {
@@ -30,29 +27,23 @@ const SignIn = () => {
   };
 
   return (
-    <div className="">
-      <h1 className="">Sign In</h1>
-      <div className="">
-        {error !== null && <div className="">{error}</div>}
-        <form className="">
-          <label htmlFor="userEmail" className="">
-            Email:
-          </label>
+    <div>
+      <h1>Sign In</h1>
+      <div>
+        {error !== null && <div>{error}</div>}
+        <form>
+          <label htmlFor="userEmail">Email:</label>
           <input
             type="email"
-            className=""
             name="userEmail"
             value={email}
             placeholder="E.g: faruq123@gmail.com"
             id="userEmail"
             onChange={(event) => onChangeHandler(event)}
           />
-          <label htmlFor="userPassword" className="">
-            Password:
-          </label>
+          <label htmlFor="userPassword">Password:</label>
           <input
             type="password"
-            className=""
             name="userPassword"
             value={password}
             placeholder="Your Password"
@@ -60,7 +51,6 @@ const SignIn = () => {
             onChange={(event) => onChangeHandler(event)}
           />
           <button
-            className=""
             onClick={(event) => {
               signInWithEmailAndPasswordHandler(event, email, password);
             }}
@@ -68,29 +58,20 @@ const SignIn = () => {
             Sign in
           </button>
         </form>
-        <p className="">or</p>
+        <p>or</p>
         <button
-          className=""
           onClick={() => {
             signInWithGoogle();
           }}
         >
           Sign in with Google
         </button>
-        <p className="">or</p>
-        <Link to="signInAnonymously" className="">
-          Contiune without login
-        </Link>
+        <p>or</p>
+        <Link to="signInAnonymously">Contiune without login</Link>
 
-        <p className="">
-          Don't have an account?{" "}
-          <Link to="signUp" className="">
-            Sign up here
-          </Link>{" "}
-          <br />{" "}
-          <Link to="passwordReset" className="">
-            Forgot Password?
-          </Link>
+        <p>
+          Don't have an account? <Link to="signUp">Sign up here</Link> <br />{" "}
+          <Link to="passwordReset">Forgot Password?</Link>
         </p>
       </div>
     </div>

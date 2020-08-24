@@ -6,27 +6,23 @@ import { UserContext } from "../../providers/UserProvider";
 const Header = () => {
   const user = useContext(UserContext);
   const { displayName, email, isAnonymous } = user || {};
+  const signOut = async () => {
+    await auth.signOut();
+  };
 
   if (user) {
     return (
-      <header className="">
+      <header>
         {isAnonymous ? (
           <span>Anonymous</span>
         ) : (
           <span>{displayName || email}</span>
         )}
-        <button
-          className=""
-          onClick={() => {
-            auth.signOut();
-          }}
-        >
-          Sign out
-        </button>
+        <button onClick={signOut}>Sign out</button>
       </header>
     );
   } else {
-    return <header className="">Please sign in.</header>;
+    return <header>Please sign in.</header>;
   }
 };
 export default Header;

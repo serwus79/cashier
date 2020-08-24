@@ -2,6 +2,8 @@
 
 Completly rewritten with anonymous authentication for better user expirence.
 
+Project to learn from: https://github.com/danilucaci/dl-react-redux-firebase-todo-app
+
 ## Configuration
 
 Create `src/config.js` file with content generated during firebase application creation.

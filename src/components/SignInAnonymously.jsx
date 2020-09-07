@@ -1,24 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "@reach/router";
+import { Link, useNavigate } from "@reach/router";
 
 import { auth, generateUserDocument } from "../firebase";
 
 const SignInAnonynmous = () => {
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const signInAnonymously = (event) => {
     event.preventDefault();
-    return auth
-      .signInAnonymously()
-      .then((user) => {
-        generateUserDocument(user, { displayName });
-        this.setState({ displayName });
-      })
-      .catch((error) => {
-        setError("Error signing in anonymously!");
-        console.error("Error signing in anonymously", error);
-      });
+    return (
+      auth
+        .signInAnonymously()
+        .then((user) => generateUserDocument(user, { displayName }))
+        .then(() => {
+          navigate(`/`);
+        })
+        // .then((user) => this.setState({ displayName }))
+        .catch((error) => {
+          setError("Error signing in anonymously!");
+          console.error("Error signing in anonymously", error);
+        })
+    );
   };
 
   const onChangeHandler = (event) => {

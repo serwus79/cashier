@@ -10,10 +10,15 @@ const SignIn = () => {
 
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      setError("Error signing in with password and email!");
-      console.error("Error signing in with password and email", error);
-    });
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        console.log("credentials: ", userCredentials);
+      })
+      .catch((error) => {
+        setError("Error signing in with password and email!");
+        console.error("Error signing in with password and email", error);
+      });
   };
 
   const onChangeHandler = (event) => {
@@ -66,8 +71,8 @@ const SignIn = () => {
         >
           Sign in with Google
         </button>
-        <p>or</p>
-        <Link to="signInAnonymously">Contiune without login</Link>
+        {/* <p>or</p>
+        <Link to="signInAnonymously">Contiune without login</Link> */}
 
         <p>
           Don't have an account? <Link to="signUp">Sign up here</Link> <br />{" "}

@@ -17,7 +17,7 @@
     "react-transition-group": "^2.4.0",
     "serve": "^9.1.2",
     "stylus": "0.54.5",
-    "fingerprintjs2": "^1.8.0"
+    "fingerprintjs2": "^1.8.6"
   },
   "scripts": {
     "dev": "react-scripts start",
